@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{static/easyui/themes/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{static/easyui/themes/icon.css}">
+
+
+    <script th:src="@{static/easyui/jquery.min.js}"></script>
+    <script th:src="@{static/easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{static/easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <script th:src="@{static/js/index.js}"></script>
+</head>
+<body>
+<div style="text-align: center;padding-top: 70px;">
+    <form id="updateUserForm" method="post">
+        <div style="margin-bottom: 15px;">
+            <label for="name">姓名：</label>
+            <input id="name" class="easyui-textbox" type="text" name="name" data-options="required:true">
+        </div>
+        <div>
+            <label for="age">年龄：</label>
+            <input id="age" class="easyui-textbox" type="text" name="age" data-options="required:true">
+        </div>
+    </form>
+    <input id="userId" type="hidden" th:value="${id}" />
+
+</div>
+
+<script type="text/javascript">
+    $(function (){
+        var id = $("#userId").val();
+        //console.log(id);
+        $("#updateUserForm").form('load',"/user/find?id=\""+id+"\"");
+    })
+</script>
+</body>
+</html>

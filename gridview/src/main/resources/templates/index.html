@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{static/easyui/themes/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{static/easyui/themes/icon.css}">
+
+
+    <script th:src="@{static/easyui/jquery.min.js}"></script>
+    <script th:src="@{static/easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{static/easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <script th:src="@{static/js/index.js}"></script>
+</head>
+<body>
+
+<table id="dg" style="width:400px;height:250px" data-options="rownumbers:true,singleSelect:false,fitColumns:true"></table>
+
+<!--datagrid的工具栏-->
+<div id="tb">
+    <a href="#" class="easyui-linkbutton" data-options="onClick:openSaveDialog,iconCls:'icon-add',plain:true">添加</a>
+    <a href="#" class="easyui-linkbutton" data-options="onClick:delSelectRows ,iconCls:'icon-remove',plain:true">删除选中</a>
+    <input id="ss" class="easyui-searchbox" style="width: 300px" data-options="searcher:qq,prompt:'请输入查询的关键字',menu:'#mm'" />
+</div>
+
+<!--搜索菜单-->
+<div id="mm">
+    <div data-options="iconCls:'icon-ok',name:'name'">姓名</div>
+    <div data-options="iconCls:'icon-ok',name:'bir'">生日</div>
+    <div data-options="iconCls:'icon-ok',name:'age'">年龄</div>
+</div>
+<!--处理保存的对话框-->
+<div id="da"></div>
+
+<!--用户修改信息的对话框-->
+<div id="updateDialog"></div>
+
+</body>
+</html>

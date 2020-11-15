@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.UserMapper">
+    <!--Sql串-->
+    <sql id="select">
+        Select * From User
+    </sql>
+
+    <!--    查询全部Users-->
+    <select id="findAll" resultType="com.example.demo.entity.User">
+        select id,name,age,bir from t_user limit #{page},#{total}
+    </select>
+
+    <select id="find" resultType="com.example.demo.entity.User">
+        select id,name,age,bir from t_user where id=#{id}
+    </select>
+
+    <select id="findTotals" resultType="java.lang.Long">
+        select count(id) from t_user
+    </select>
+
+    <insert id="save" parameterType="User">
+        insert into t_user values(#{id},#{name},#{age},#{bir})
+    </insert>
+
+    <delete id="delete" parameterType="long">
+        delete from t_user where id= #{id}
+    </delete>
+
+    <!--    通过多个uid删除多个Users-->
+    <delete id="deleteAll" parameterType="List">
+        delete from t_user
+        where id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="com.example.demo.entity.User">
+        update User u
+        <set>
+            <if test="id != null">u.id=#{id}</if>
+            <if test="name != null">u.name=#{name},</if>
+            <if test="age != null">u.age=#{age},</if>
+            u.bir=#{bir}
+        </set>
+        where u.id=#{id}
+    </update>
+</mapper>
