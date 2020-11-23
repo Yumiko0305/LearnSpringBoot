@@ -22,13 +22,21 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public List<User> findAll(Integer page, Integer total) {
+    public List<User> findAll(Integer page, Integer total,String name,String value) {
         int start = (page-1)*total;
-        return userMapper.findAll(start,total);
+//        if(name!=null & name!="" & value!=null)
+//        {
+//            if(name=="age")
+//            {
+//                int v = Integer.parseInt(value);
+//                return userMapper.findAll(start,total,name,v);
+//            }
+//        }
+        return userMapper.findAll(start,total,name,value);
     }
 
     @Override
-    public User find(long id) {
+    public User find(String id) {
         return userMapper.find(id);
     }
 
@@ -39,9 +47,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public long save(User user) {
-        Random rid = new Random();
-        long id = rid.nextLong();
-        user.setId(id);
+        user.setId(UUID.randomUUID().toString());
         user.setBir(new Date());
         return userMapper.save(user);
     }
@@ -52,12 +58,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public long delete(long id) {
+    public long delete(String id) {
         return userMapper.delete(id);
     }
 
     @Override
     public long deleteAll(List<Long> list) {
         return userMapper.deleteAll(list);
+    }
+
+    @Override
+    public long countTableRows(String tableName){
+        return userMapper.counter(tableName);
     }
 }

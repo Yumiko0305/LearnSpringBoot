@@ -3,7 +3,10 @@ package com.example.demo.dao;
 import com.example.demo.entity.User;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 import java.util.List;
 
 // :)
@@ -11,9 +14,9 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    List<User> findAll(Integer page,Integer total);
+    List<User> findAll(@Param("page")Integer page, @Param("total") Integer total,@Param("name") String name,@Param("value") String  value);
 
-    User find(long id);
+    User find(String id);
 
     Long findTotals();
 
@@ -21,7 +24,9 @@ public interface UserMapper {
 
     long update(User user);
 
-    long delete(long id);
+    long delete(String id);
 
     long deleteAll(List<Long> list);
+
+    long counter(@Param("tableName") String tableName);
 }

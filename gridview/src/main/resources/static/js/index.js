@@ -75,17 +75,23 @@ function saveUserInfo(){
             return $('#saveUserForm').form('validate');
         },
         success:function (data){
-            console.log(data);
-            //map json
-            $.messager.show({
-                title:'保存提示',
-                msg:'保存用户信息成功',
-                timeout:5000,
-                shoeType:'slide'
-            });
-            //关闭对话框
-            $('#da').dialog('close');
-            $("#dg").datagrid('reload');
+            var jsonObj = $.parseJSON(data);
+            if(jsonObj.ok==true){
+                //map json
+                $.messager.show({
+                    title:'保存提示',
+                    msg:'保存用户信息成功',
+                    timeout:5000,
+                    shoeType:'slide'
+                });
+                //关闭对话框
+                $('#da').dialog('close');
+                $("#dg").datagrid('reload');
+            }else{
+                $.messager.alert('提示','添加失败，请重新添加','info');
+                $('#da').dialog('close');
+            }
+
         }
     });
     //提交form
@@ -138,7 +144,7 @@ function updateUserInfo(){
            return $(this).form('validate');
        } ,
         success:function (data){
-           console.log(data)
+           console.log(data);
             $("#dg").datagrid('reload');
         }
     });
@@ -152,22 +158,27 @@ function delSelectRows(){
     if(rows.length>0){
         var ids = [];
         $.each(rows,function (idx,row){
-           console.log(row.id);
+           //console.log(row.id);
            ids.push(row.id);
         });
-        console.log(ids);
-        //异步请求删除数据
-        $.ajax({
-            url:"user/deleteAll",
-            method:"POST",
-            data:{id:ids},
-            dataType:"JSON",
-            traditional:true,//传递数据类型的参数
-            success:function (data){
-                console.log(data)
-                $("#dg").datagrid('reload');
+        //console.log(ids);
+        $.messager.confirm('提示','确认要删除这条数据吗？',function (r){
+            if(r){
+                //异步请求删除数据
+                $.ajax({
+                    url:"user/deleteAll",
+                    method:"POST",
+                    data:{id:ids},
+                    dataType:"JSON",
+                    traditional:true,//传递数据类型的参数
+                    success:function (data){
+                        //console.log(data);
+                        $("#dg").datagrid('reload');
+                    }
+                });
             }
-        })
+        });
+
     }else{
         $.messager.alert('提示','至少勾选一个要删除的数据！','info')
     }

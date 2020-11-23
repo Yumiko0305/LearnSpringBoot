@@ -31,8 +31,15 @@
 <script type="text/javascript">
     $(function (){
         var id = $("#userId").val();
-        //console.log(id);
-        $("#updateUserForm").form('load',"/user/find?id=\""+id+"\"");
+        console.log(id);
+        console.log(typeof (id));
+        $("#updateUserForm").form('submit', {
+                url:"/user/find?id=\""+id+"\"",
+                onSubmit:function (){},
+                success:function (data){
+                    console.log(data);
+                }
+            });
     })
 </script>
 </body>
