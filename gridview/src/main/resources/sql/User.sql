@@ -5,7 +5,7 @@ create table t_user
     id  varchar(100) primary key,
     name varchar(50) not null,
     age int not null,
-    bir DATE not null
+    bir varchar(100) not null
 );
 
 # 计数表
@@ -41,5 +41,5 @@ BEGIN
 END;
 
 # 添加User数据
-INSERT INTO t_user (id,NAME,age,bir) VALUES ('1','username',21,date(NOW()));
+INSERT INTO t_user (id,NAME,age,bir) VALUES ('1','username',21,'2020-11-24');
 

@@ -38,15 +38,15 @@ public class User {
         this.age = age;
     }
 
-    public Date getBir() {
+    public String getBir() {
         return bir;
     }
 
-    public void setBir(Date bir) {
+    public void setBir(String bir) {
         this.bir = bir;
     }
 
     @JsonProperty("bir")
-    private Date bir ;
+    private String bir ;
 
 }

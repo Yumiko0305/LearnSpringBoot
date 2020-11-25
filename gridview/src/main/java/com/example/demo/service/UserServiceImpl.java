@@ -3,12 +3,14 @@ package com.example.demo.service;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.DateUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService{
@@ -24,14 +26,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> findAll(Integer page, Integer total,String name,String value) {
         int start = (page-1)*total;
-//        if(name!=null & name!="" & value!=null)
-//        {
-//            if(name=="age")
-//            {
-//                int v = Integer.parseInt(value);
-//                return userMapper.findAll(start,total,name,v);
-//            }
-//        }
         return userMapper.findAll(start,total,name,value);
     }
 
@@ -48,7 +42,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public long save(User user) {
         user.setId(UUID.randomUUID().toString());
-        user.setBir(new Date());
+        LocalDateTime ldt =LocalDateTime.now().plusDays(1);
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String formatter = formatter1.format(ldt);
+        user.setBir(formatter);
         return userMapper.save(user);
     }
 
@@ -63,7 +60,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public long deleteAll(List<Long> list) {
+    public long deleteAll(List<String> list) {
         return userMapper.deleteAll(list);
     }
 

@@ -26,7 +26,7 @@ public interface UserMapper {
 
     long delete(String id);
 
-    long deleteAll(List<Long> list);
+    long deleteAll(List<String> list);
 
     long counter(@Param("tableName") String tableName);
 }

@@ -11,7 +11,7 @@
         select <include refid="selectCommon"></include> from t_user
         <where>
             <if test='name!=null and name!="" and value!=null and value!=""'>
-                name = #{value}
+                ${name} = #{value}
             </if>
         </where>
         limit #{page},#{total}
@@ -29,7 +29,7 @@
         insert into t_user values(#{id},#{name},#{age},#{bir})
     </insert>
 
-    <delete id="delete" parameterType="long">
+    <delete id="delete" parameterType="string">
         delete from t_user where id= #{id}
     </delete>
 
@@ -43,14 +43,13 @@
     </delete>
 
     <update id="update" parameterType="com.example.demo.entity.User">
-        update User u
+        update t_user
         <set>
-            <if test="id != null">u.id=#{id}</if>
-            <if test="name != null">u.name=#{name},</if>
-            <if test="age != null">u.age=#{age},</if>
-            u.bir=#{bir}
+            <if test="name!=null">name=#{name},</if>
+            <if test="age!=null">age=#{age},</if>
+            bir=#{bir}
         </set>
-        where u.id=#{id}
+        where id=#{id}
     </update>
 
     <select id="counter" resultType="long" parameterType="string">

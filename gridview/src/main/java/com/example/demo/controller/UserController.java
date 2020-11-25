@@ -5,6 +5,7 @@ import com.example.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -52,10 +53,10 @@ public class UserController {
     }
 
     @RequestMapping("/deleteAll")
-    public Map<String, Object> deleatAll(@RequestParam("id") List<Long> list) {
+    public Map<String, Object> deleatAll(@RequestParam("id") List<String> list) {
         HashMap<String, Object> stringObjectHashMap = new HashMap<>();
         try {
-            list.removeIf(it -> it <= 0);
+            //list.removeIf(it -> it <= 0);
             if (list.size() != 0) {
                 userService.deleteAll(list);
                 stringObjectHashMap.put("success", true);
@@ -90,16 +91,17 @@ public class UserController {
     public String find(@RequestParam("id")String id){
         System.out.print(id);
         User user = userService.find(id);
-        System.out.print(user);
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
             json = objectMapper.writeValueAsString(user);
+            System.out.println(json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return json;
     }
+
 
     @RequestMapping("/update")
     public Map<String,Object> update(@RequestParam(value = "name", required = false, defaultValue = "") String name,

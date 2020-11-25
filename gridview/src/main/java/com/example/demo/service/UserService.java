@@ -20,7 +20,7 @@ public interface UserService {
 
     long delete(String id);
 
-    long deleteAll(List<Long> list);
+    long deleteAll(List<String> list);
 
     /**
      * 查询表内有多少条记录

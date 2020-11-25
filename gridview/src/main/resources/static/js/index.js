@@ -16,7 +16,7 @@ $(function(){
             {title:'ID',field:'id',width:100,},
             {title:'姓名',field:'name',width:100,resizable:false},
             {title:'年龄',field:'age',width:150,sortable:true},
-            {title:'生日',field:'bir',width:200,sortable:true,order:'asc'},
+            {title:'创建日期',field:'bir',width:200,sortable:true,order:'asc'},
             {title:'操作',field:'options',width:100,
                 formatter:function(value,row,index){
                     return "<a href='javascript:;' class='btn' onClick=\"delUserInfo('"+ row.id +"');\"  data-options=\"iconCls:'icon-remove'\" >删除</a>&nbsp;&nbsp;"
@@ -37,7 +37,7 @@ $(function(){
 
 //用来处理搜索的函数
 function qq(value,name){
-    console.log(value);
+    //console.log(value);
     console.log(name);
     $("#dg").datagrid('load',{
         "coloumName":name,
@@ -137,19 +137,33 @@ function openUpdateDialog(id){
 
 //处理用户修改信息
 function updateUserInfo(){
+    var id=$("#userId").val();
     //form表单提交
     $("#updateUserForm").form({
-       url:'/user/update',
+       url:'/user/update?id='+id,
        onSubmit:function (){
            return $(this).form('validate');
        } ,
         success:function (data){
            console.log(data);
+            var jsonObj = $.parseJSON(data);
+            if(jsonObj.success==true){
+                $.messager.show({
+                    title:'保存提示',
+                    msg:'修改用户信息成功',
+                    timeout:5000,
+                    shoeType:'slide'
+                });
+                $("#dg").datagrid('reload');
+                $('#updateDialog').dialog('close');
+            }else{
+                $.messager.alert('提示','修改失败，请重新修改','info');
+                $('#updateDialog').dialog('close');
+            }
             $("#dg").datagrid('reload');
         }
     });
     $('#updateUserForm').form('submit');
-    $('#updateDialog').dialog('close');
 }
 
 //处理删除选中
@@ -158,10 +172,8 @@ function delSelectRows(){
     if(rows.length>0){
         var ids = [];
         $.each(rows,function (idx,row){
-           //console.log(row.id);
            ids.push(row.id);
         });
-        //console.log(ids);
         $.messager.confirm('提示','确认要删除这条数据吗？',function (r){
             if(r){
                 //异步请求删除数据
@@ -172,7 +184,6 @@ function delSelectRows(){
                     dataType:"JSON",
                     traditional:true,//传递数据类型的参数
                     success:function (data){
-                        //console.log(data);
                         $("#dg").datagrid('reload');
                     }
                 });

@@ -17,11 +17,13 @@
     <form id="updateUserForm" method="post">
         <div style="margin-bottom: 15px;">
             <label for="name">姓名：</label>
-            <input id="name" class="easyui-textbox" type="text" name="name" data-options="required:true">
+<!--            <input id="name" class="easyui-textbox" type="text" name="name" data-options="required:true">-->
+            <input id="name" type="text" name="name">
         </div>
         <div>
             <label for="age">年龄：</label>
-            <input id="age" class="easyui-textbox" type="text" name="age" data-options="required:true">
+<!--            <input id="age" class="easyui-textbox" type="text" name="age" data-options="required:true">-->
+            <input id="age"  type="text" name="age">
         </div>
     </form>
     <input id="userId" type="hidden" th:value="${id}" />
@@ -31,13 +33,13 @@
 <script type="text/javascript">
     $(function (){
         var id = $("#userId").val();
-        console.log(id);
-        console.log(typeof (id));
         $("#updateUserForm").form('submit', {
-                url:"/user/find?id=\""+id+"\"",
+                url:"/user/find?id="+id,
                 onSubmit:function (){},
                 success:function (data){
-                    console.log(data);
+                    var obj = JSON.parse(data);
+                    document.getElementById("name").value=obj.name;
+                    document.getElementById("age").value=obj.age;
                 }
             });
     })
