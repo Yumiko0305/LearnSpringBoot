@@ -18,12 +18,12 @@
         <div style="margin-bottom: 15px;">
             <label for="name">姓名：</label>
 <!--            <input id="name" class="easyui-textbox" type="text" name="name" data-options="required:true">-->
-            <input id="name" type="text" name="name">
+            <input id="name" class="easyui-validatebox" type="text" name="name" data-options="required:true">
         </div>
         <div>
             <label for="age">年龄：</label>
 <!--            <input id="age" class="easyui-textbox" type="text" name="age" data-options="required:true">-->
-            <input id="age"  type="text" name="age">
+            <input id="age" class="easyui-validatebox" type="text" name="age" data-options="required:true,validType:['age']">
         </div>
     </form>
     <input id="userId" type="hidden" th:value="${id}" />
@@ -42,6 +42,15 @@
                     document.getElementById("age").value=obj.age;
                 }
             });
+
+        $.extend($.fn.validatebox.defaults.rules, {
+            age: {
+                validator: function (value) {
+                    return/^[0-9]*$/i.test($.trim(value));
+                },
+                message: '年龄格式错误.' }
+            });
+
     })
 </script>
 </body>
